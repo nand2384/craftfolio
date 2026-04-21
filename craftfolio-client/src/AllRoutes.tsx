@@ -7,6 +7,7 @@ import TemplatePreviewPage from './pages/Templates/TemplatePreviewPage';
 import PostBuilderPreviewPage from './pages/Builder/PostBuilderPreviewPage';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
+import SetPasswordPage from './pages/Auth/SetPasswordPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import MainLayout from './components/layout/MainLayout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -37,6 +38,7 @@ export default function AllRoutes() {
         <Route path="/builder/:templateId" element={<BuilderPage />} />
         <Route path="/final-preview/:templateId" element={<PostBuilderPreviewPage />} />
       </Route>
+        <Route path="/set-password" element={<SetPasswordPage />} />
 
       {/* Public Preview */}
       <Route path="/preview/:templateId" element={<TemplatePreviewPage />} />

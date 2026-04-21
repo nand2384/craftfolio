@@ -1,12 +1,10 @@
 import React from 'react';
+import type { TemplateRegistry } from '../types';
 
 // Vite feature to automatically scan the templates directory
 // This finds any Index.tsx file inside a subdirectory of src/templates
 const modules = import.meta.glob('../templates/*/Index.tsx');
 
-interface TemplateRegistry {
-  [key: string]: React.LazyExoticComponent<React.ComponentType<any>>;
-}
 
 export const templateMap: TemplateRegistry = {};
 

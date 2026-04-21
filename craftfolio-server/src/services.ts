@@ -1,7 +1,7 @@
 import pool from "./config/db.js";
 import { generateId } from "./utils/idGenerator.js";
 import { generateJwtToken, extractJwtData } from "./utils/jwt.js";
-import { loginUser, registerUser } from "./features/auth/auth.service.js";
+import { loginUser, registerUser, setPassword } from "./features/auth/auth.service.js";
 import { logAction } from "./features/audit/audit.service.js";
 import { generateOTP, saveOTP, canResendOTP, verifyOTP } from "./utils/otpHandler.js";
 import { sendOTPEmail } from "./utils/mailer.js";
@@ -25,6 +25,7 @@ const services = {
     auth: {
         registerUser,
         loginUser,
+        setPassword,
     },
     audit: {
         logAction

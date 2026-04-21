@@ -1,17 +1,27 @@
 import { motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronLeft, Monitor, Smartphone, Tablet, Download } from 'lucide-react';
-import { useState, Suspense } from 'react';
-import { templates } from '../Templates/TemplateSelectionPage';
+import { useState, Suspense, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState, AppDispatch } from '../../redux/store';
+import { fetchTemplates } from '../../redux/features/templates/templateSlice';
 import { templateMap } from '../../utils/templateRegistry';
 
 const PostBuilderPreviewPage = () => {
   const { templateId } = useParams<{ templateId: string }>();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { templates } = useSelector((state: RootState) => state.templates);
   const [view, setView] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
 
-  const templateData = templates.find((t) => t.id === templateId);
-  const SelectedTemplate = templateData ? templateMap[templateData.template] : null;
+  useEffect(() => {
+    if (templates.length === 0) {
+      dispatch(fetchTemplates());
+    }
+  }, [dispatch, templates.length]);
+
+  const templateData = templates.find((t) => String(t.template_id) === String(templateId));
+  const SelectedTemplate = templateData ? templateMap[templateData.blueprint_key] : null;
 
   if (!templateData || !SelectedTemplate) {
     return (

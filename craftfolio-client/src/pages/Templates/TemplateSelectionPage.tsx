@@ -1,70 +1,12 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { ChevronLeft, Sparkles, ArrowRight } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
-
-export interface Template {
-  id: string;
-  name: string;
-  professionId: string;
-  thumbnail: string;
-  description: string;
-  template: string;
-}
-
-export const templates: Template[] = [
-  {
-    id: 'template-1',
-    name: 'Minimalist Dev',
-    professionId: 'developer',
-    thumbnail: '/template1.png',
-    description: 'A clean, typography-focused template for software engineers.',
-    template: "template1",
-  },
-  {
-    id: 'template-2',
-    name: 'Dark Mode Portfolio',
-    professionId: 'developer',
-    thumbnail: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800',
-    description: 'Modern dark aesthetic with neon accents for tech-savvy users.',
-    template: "template2"
-  },
-  {
-    id: 'template-3',
-    name: 'Visual Designer',
-    professionId: 'designer',
-    thumbnail: 'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=800',
-    description: 'Grid-based layout perfect for showcasing visual assets.',
-    template: "template3"
-  },
-  {
-    id: 'template-4',
-    name: 'Creative Studio',
-    professionId: 'designer',
-    thumbnail: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&q=80&w=800',
-    description: 'Elegant and bold design for studios and creative freelancers.',
-    template: "template4"
-  },
-  {
-    id: 'template-5',
-    name: 'Editorial Blog',
-    professionId: 'content-creator',
-    thumbnail: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=800',
-    description: 'Focuses on readability and storytelling for written content.',
-    template: "template5"
-  },
-  {
-    id: 'template-6',
-    name: 'Insta-Style Grid',
-    professionId: 'influencer',
-    thumbnail: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800',
-    description: 'Mobile-first layout optimized for social media links.',
-    template: "template6"
-  },
-];
+import type { RootState, AppDispatch } from '../../redux/store';
+import { fetchTemplates } from '../../redux/features/templates/templateSlice';
 
 const getProfessionName = (id: string) => {
   const names: Record<string, string> = {
@@ -78,16 +20,24 @@ const getProfessionName = (id: string) => {
   return names[id] || 'Professional';
 };
 
+
 const TemplateSelectionPage = () => {
   const { professionId } = useParams<{ professionId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
   const { jwt } = useSelector((state: RootState) => state.auth);
- 
+  const { templates: rawTemplates, loading, error } = useSelector((state: RootState) => state.templates);
+  const templates = Array.isArray(rawTemplates) ? rawTemplates : [];
+
   const professionName = getProfessionName(professionId || '');
-  const filteredTemplates = templates.filter((t) => t.professionId === professionId);
- 
-  const handleUseTheme = (templateId: string) => {
+  // Match based on the slug returned by our DB Join
+  const filteredTemplates = templates.filter((t) => {
+    const slug = (t.profession_slug || '').trim().toLowerCase();
+    return slug === professionId?.toLowerCase();
+  });
+  
+  const handleUseTheme = (templateId: number) => {
      if (!jwt) {
        toast.info("Please sign up to start building your portfolio!", {
          description: "It only takes a minute to get started.",
@@ -147,17 +97,34 @@ const TemplateSelectionPage = () => {
           viewport={{ once: true }}
           className="flex flex-col gap-32"
         >
-          {filteredTemplates.length > 0 ? (
+          {loading ? (
+            <div className="py-40 text-center">
+               <div className="w-12 h-12 border-4 border-slate-100 border-t-[#4CAF7D] rounded-full animate-spin mx-auto mb-4"></div>
+               <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Fetching Designs...</p>
+            </div>
+          ) : error ? (
+            <div className="py-40 text-center flex flex-col items-center">
+               <p className="text-[#4CAF7D] font-black uppercase tracking-[0.3em] text-[10px] mb-4">Error Protocol</p>
+               <h3 className="text-4xl font-black text-slate-900 mb-6 italic">Database Synchronization Error</h3>
+               <p className="text-slate-500 font-medium mb-10 max-w-md">{error}</p>
+               <button 
+                onClick={() => dispatch(fetchTemplates())}
+                className="px-10 py-4 bg-slate-900 text-white rounded-full font-black text-xs tracking-widest hover:bg-[#4CAF7D] transition-all"
+               >
+                 RETRY SYNC
+               </button>
+            </div>
+          ) : filteredTemplates.length > 0 ? (
             filteredTemplates.map((template, index) => (
               <motion.div
-                key={template.id}
+                key={template.template_id}
                 variants={itemVariants}
                 className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 ${
                   index % 2 !== 0 ? 'md:flex-row-reverse' : ''
                 }`}
               >
                 {/* Image Side */}
-                <div className="w-full md:w-3/5 group cursor-pointer" onClick={() => navigate(`/preview/${template.id}`)}>
+                <div className="w-full md:w-3/5 group cursor-pointer" onClick={() => navigate(`/preview/${template.template_id}`)}>
                    <div className="relative overflow-hidden rounded-[2.5rem] bg-slate-50 border border-slate-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-[#4CAF7D]/5">
                       <img
                         src={template.thumbnail}
@@ -184,13 +151,13 @@ const TemplateSelectionPage = () => {
                    </p>
                    <div className="flex items-center gap-8 mt-4">
                       <button
-                        onClick={() => navigate(`/preview/${template.id}`)}
+                        onClick={() => navigate(`/preview/${template.template_id}`)}
                         className="flex items-center gap-3 text-slate-900 font-black text-sm uppercase tracking-widest hover:text-[#4CAF7D] transition-colors group"
                       >
                          Live Preview <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                       </button>
                       <button
-                        onClick={() => handleUseTheme(template.id)}
+                        onClick={() => handleUseTheme(template.template_id)}
                         className="px-8 py-4 bg-slate-50 hover:bg-slate-100 text-slate-900 rounded-full font-black text-xs tracking-widest transition-all"
                       >
                          {jwt ? "USE THEME" : "START BUILDING"}

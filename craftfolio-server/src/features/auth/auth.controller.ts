@@ -107,15 +107,46 @@ export const googleAuthCallback = (req: Request, res: Response, next: NextFuncti
             return res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);
         }
 
-        const { token, user } = data;
+        const { token, user, isNewUser } = data;
+
         const userData = {
             first_name: user.first_name,
             last_name: user.last_name,
-            email: user.email
+            email: user.email,
+            avatar_url: user.avatar_url
         };
 
-        // Standardized redirect with token and JSON-stringified userData
-        const redirectUrl = `${process.env.FRONTEND_URL}/login?token=${token}&userData=${encodeURIComponent(JSON.stringify(userData))}&role_id=${user.role_id}`;
+        const queryString = `token=${token}&userData=${encodeURIComponent(JSON.stringify(userData))}&role_id=${user.role_id}`;
+        
+        // Redirect directly to set-password for new users, login for existing
+        const targetPage = isNewUser ? 'set-password' : 'login';
+        const redirectUrl = `${process.env.FRONTEND_URL}/${targetPage}?${queryString}`;
+        
         res.redirect(redirectUrl);
     })(req, res, next);
+};
+
+export const setUserPassword = async (req: Request, res: Response) => {
+    try {
+        const { password } = req.body;
+        const user_id = req.user?.user_id;
+
+        if (!user_id) {
+            return res.status(401).json({ success: false, error: "Unauthorized: No user session found" });
+        }
+
+        if (!password) {
+            return res.status(400).json({ success: false, error: "Password is required" });
+        }
+
+        const result = await services.auth.setPassword(user_id.toString(), password);
+
+        if (result.success) {
+            res.status(200).json({ success: true, message: "Password set successfully" });
+        } else {
+            res.status(400).json({ success: false, error: result.error });
+        }
+    } catch (error: any) {
+        res.status(500).json({ success: false, error: error.message });
+    }
 };

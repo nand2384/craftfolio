@@ -1,9 +1,33 @@
 import { Code2, RotateCcw, ChevronLeft } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTemplate } from '../../redux/features/preview/dataSlice';
+import type { RootState } from '../../redux/store';
+import { templateDataMap } from '../../utils/templateDataRegistry';
+import { toast } from 'sonner';
 
 export default function BuilderNavbar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { templateId } = useParams<{ templateId: string }>();
+  const { templateId: currentTemplateId } = useSelector((state: RootState) => state.data);
+
+  const handleReset = () => {
+    // Determine which template to reset based on the URL or the current state
+    const targetId = templateId || currentTemplateId;
+    const defaultData = templateDataMap[targetId];
+    
+    if (defaultData) {
+      dispatch(setTemplate({ 
+        templateId: targetId, 
+        data: JSON.parse(JSON.stringify(defaultData.data)), // Deep copy to prevent reference issues
+        links: JSON.parse(JSON.stringify(defaultData.links)) 
+      }));
+      toast.success("Template data reset to default");
+    } else {
+      toast.error("Default data not found for this template");
+    }
+  };
 
   return (
     <header className="h-16 border-b border-slate-100 flex items-center justify-between px-6 bg-white shrink-0 z-50 font-sans shadow-sm">
@@ -27,7 +51,9 @@ export default function BuilderNavbar() {
       </div>
 
       <div className="flex items-center gap-3">
-        <button className="h-10 px-4 rounded-xl text-xs font-black flex items-center gap-2 text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all active:scale-95 tracking-widest">
+        <button className="h-10 px-4 rounded-xl text-xs font-black flex items-center gap-2 text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all active:scale-95 tracking-widest"
+          onClick={handleReset}
+        >
           <RotateCcw className="w-3.5 h-3.5" />
           RESET
         </button>

@@ -1,19 +1,27 @@
 import { motion } from 'framer-motion';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { ChevronLeft, Monitor, Smartphone, Tablet, CheckCircle, ArrowRight } from 'lucide-react';
-import { templates } from './TemplateSelectionPage';
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { templateMap } from '../../utils/templateRegistry';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../redux/store';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState, AppDispatch } from '../../redux/store';
+import { fetchTemplates } from '../../redux/features/templates/templateSlice';
 import { toast } from 'sonner';
 
 const TemplatePreviewPage = () => {
   const { templateId } = useParams<{ templateId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
   const { jwt } = useSelector((state: RootState) => state.auth);
+  const { templates } = useSelector((state: RootState) => state.templates);
   const [view, setView] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
+
+  useEffect(() => {
+    if (templates.length === 0) {
+      dispatch(fetchTemplates());
+    }
+  }, [dispatch, templates.length]);
 
   const handleStartBuilding = () => {
     if (!jwt) {
@@ -27,12 +35,12 @@ const TemplatePreviewPage = () => {
       navigate('/login', { state: { from: location } });
       return;
     }
-    if (templateData) navigate(`/builder/${templateData.id}`);
+    if (templateData) navigate(`/builder/${templateData.template_id}`);
   };
 
-  const templateData = templates.find((t) => t.id === templateId);
-  // The identifier in templateData.template should match the folder name in src/templates/
-  const SelectedTemplate = templateData ? templateMap[templateData.template] : null;
+  const templateData = templates.find((t) => String(t.template_id) === String(templateId));
+  // The identifier in templateData.blueprint_key should match the folder name in src/templates/
+  const SelectedTemplate = templateData ? templateMap[templateData.blueprint_key] : null;
 
   if (!templateData || !SelectedTemplate) {
     return (

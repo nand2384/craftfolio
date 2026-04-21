@@ -5,6 +5,7 @@ export const generateId = async (id: number) => {
   try {
     const variableData: IdGeneratorData[] = [
       { id: 10, table: "users", column: "user_id" },
+      { id: 21, table: "templates", column: "template_id" },
     ];
 
     const currentVariableData: IdGeneratorData | undefined = variableData.find((data) => data.id == id);

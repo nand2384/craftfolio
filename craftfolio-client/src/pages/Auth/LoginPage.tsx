@@ -30,11 +30,12 @@ const LoginPage = () => {
     const token = params.get("token");
     const rawUserData = params.get("userData");
     const roleId = params.get("role_id");
+    const isNewUserParam = params.get("isNewUser");
+    const isNewUser = isNewUserParam === "true";
     const error = params.get("error");
 
     if (error) {
       toast.error("Google authentication failed. Please try again.");
-      // Clean URL
       window.history.replaceState({}, document.title, window.location.pathname);
       return;
     }
@@ -52,13 +53,16 @@ const LoginPage = () => {
         
         toast.success("Signed in successfully with Google!");
         
-        // Clean URL to prevent re-processing on refresh
-        window.history.replaceState({}, document.title, window.location.pathname);
+        const targetPath = isNewUser ? '/set-password' : from;
         
-        // Redirect to profile or the 'from' location
-        navigate(from, { replace: true });
+        navigate(targetPath, { replace: true });
+        
+        // Delay URL cleansing so PublicRoute sees the params for the duration of the transition
+        setTimeout(() => {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }, 1000);
+
       } catch (e) {
-        console.error("Failed to parse Google user data:", e);
         toast.error("Auth sync failed. Please try again.");
       } finally {
         setIsProcessingGoogle(false);

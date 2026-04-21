@@ -12,7 +12,8 @@ const initialState: AuthState = {
     userData: initialAuthState?.userData || {
         first_name: "",
         last_name: "",
-        email: ""
+        email: "",
+        avatar_url: ""
     },
     loading: false,
     error: "",
@@ -102,7 +103,8 @@ const authSlice = createSlice({
             state.userData = {
                 first_name: "",
                 last_name: "",
-                email: ""
+                email: "",
+                avatar_url: ""
             };
             localStorage.removeItem("auth");
         }
@@ -129,7 +131,8 @@ const authSlice = createSlice({
             state.userData = {
                 first_name: "",
                 last_name: "",
-                email: ""
+                email: "",
+                avatar_url: ""
             };
             state.loading = false;
             state.error = action.payload as string || "Register Failed";
@@ -159,7 +162,8 @@ const authSlice = createSlice({
             state.userData = {
                 first_name: "",
                 last_name: "",
-                email: ""
+                email: "",
+                avatar_url: ""
             };
             state.loading = false;
             state.error = action.payload as string || "Login Failed";

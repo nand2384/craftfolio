@@ -73,8 +73,16 @@ const ProfilePage = () => {
           >
              <div className="relative group">
                 <div className="w-32 h-32 rounded-3xl bg-slate-100 flex items-center justify-center overflow-hidden border-4 border-slate-50 group-hover:border-[#4CAF7D]/20 transition-all duration-500">
-                   {/* Placeholder Avatar */}
-                   <User size={64} className="text-slate-300" />
+                   {/* User Avatar */}
+                   {userData?.avatar_url ? (
+                     <img 
+                       src={userData.avatar_url} 
+                       alt={`${userData.first_name}'s avatar`}
+                       className="w-full h-full object-cover"
+                     />
+                   ) : (
+                     <User size={64} className="text-slate-300" />
+                   )}
                 </div>
                 <button className="absolute -bottom-2 -right-2 p-3 bg-slate-900 text-white rounded-2xl shadow-lg hover:scale-110 transition-transform">
                    <Edit3 size={16} />

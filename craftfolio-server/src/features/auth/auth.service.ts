@@ -70,3 +70,25 @@ export const loginUser = async (userData: LoginUserData) => {
         return { success: false, error: error };
     }
 };
+
+export const setPassword = async (user_id: string, password: string) => {
+    try {
+        const password_hash = await bcrypt.hash(password, SALT_ROUNDS);
+        const result = await services.pool.query(
+            "UPDATE users SET password_hash = $1 WHERE user_id = $2 RETURNING *",
+            [password_hash, user_id]
+        );
+
+        if (result.rowCount === 0) {
+            return { success: false, error: "User not found" };
+        }
+
+        await services.audit.logAction('PASSWORD_UPDATE', 'users', user_id.toString(), undefined, { method: 'set_password' });
+
+        return { success: true };
+    } catch (error: any) {
+        console.error("Set Password Error:", error);
+        await services.audit.logAction('PASSWORD_UPDATE_FAILURE', 'users', user_id.toString(), undefined, { error: error.message });
+        return { success: false, error: error.message };
+    }
+};

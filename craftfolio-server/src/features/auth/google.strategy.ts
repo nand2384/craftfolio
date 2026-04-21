@@ -24,7 +24,7 @@ passport.use(
             // Audit: Google Login
             await services.audit.logAction('LOGIN_SUCCESS', 'auth', user.user_id.toString(), undefined, { method: 'google' });
             
-            return done(null, { user, token } as any);
+            return done(null, { user, token, isNewUser: false } as any);
         }
 
         // New user creation
@@ -46,11 +46,11 @@ passport.use(
         // Audit: Google Register
         await services.audit.logAction('USER_REGISTER', 'users', user_id.toString(), undefined, { method: 'google' });
         
-        return done(null, { user: newUser, token } as any);
+        return done(null, { user: newUser, token, isNewUser: true } as any);
     } catch (error: any) {
         console.error("Google Auth Error:", error);
         await services.audit.logAction('LOGIN_FAILURE', 'auth', undefined, undefined, { method: 'google', error: error.message });
-        return done(error, null);
+        return done(error, undefined);
     }
 }));
 

@@ -40,6 +40,8 @@ const RegisterPage = () => {
     const token = params.get("token");
     const rawUserData = params.get("userData");
     const roleId = params.get("role_id");
+    const isNewUserParam = params.get("isNewUser");
+    const isNewUser = isNewUserParam === "true";
     const error = params.get("error");
 
     if (error) {
@@ -60,10 +62,15 @@ const RegisterPage = () => {
         }));
         
         toast.success("Welcome to Craftfolio! Signed in with Google.");
-        window.history.replaceState({}, document.title, window.location.pathname);
-        navigate(from, { replace: true });
+        
+        const targetPath = isNewUser ? '/set-password' : from;
+        navigate(targetPath, { replace: true });
+
+        // Force a delay on URL cleaning so PublicRoute doesn't redirect to profile early
+        setTimeout(() => {
+           window.history.replaceState({}, document.title, window.location.pathname);
+        }, 1000);
       } catch (e) {
-        console.error("Failed to parse Google user data:", e);
         toast.error("Auth sync failed.");
       } finally {
         setIsProcessingGoogle(false);

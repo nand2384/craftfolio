@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { loginUser, registerUser, sendOtp, verifyOtp, googleAuth, googleAuthCallback } from "./auth.controller.js";
+import { loginUser, registerUser, sendOtp, verifyOtp, googleAuth, googleAuthCallback, setUserPassword } from "./auth.controller.js";
 import { authMiddleware } from "../../middleware/authMiddleware.js";
 import { Request, Response } from "express";
 
@@ -20,5 +20,7 @@ router.get('/validate', authMiddleware, (req: Request, res: Response) => {
 
 router.get('/google', googleAuth);
 router.get('/google/callback', googleAuthCallback);
+
+router.post('/set-password', authMiddleware, setUserPassword);
 
 export default router;

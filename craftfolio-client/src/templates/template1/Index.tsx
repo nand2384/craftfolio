@@ -12,20 +12,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTemplate } from '../../redux/features/preview/dataSlice';
 import type { RootState } from '../../redux/store';
 import { data, links } from './data/data';
-
-type ViewMode = 'desktop' | 'tablet' | 'mobile';
+import type { ViewMode } from '../../types';
 
 interface IndexProps {
   device?: ViewMode;
 }
 
+
 function Index({ device }: IndexProps) {
   const dispatch = useDispatch();
+  const currentTemplateId = useSelector((state: RootState) => state.data.templateId);
   const sections = useSelector((state: RootState) => state.data.data.sections);
 
   useEffect(() => {
-    dispatch(setTemplate({ templateId: "template1", data, links }));
-  }, [dispatch]);
+    // Only set template data if it's not already loaded or if a different template was loaded
+    if (currentTemplateId !== "template1") {
+      dispatch(setTemplate({ templateId: "template1", data, links }));
+    }
+  }, [dispatch, currentTemplateId]);
 
   return (
     <div className="min-h-screen bg-[#FDFBF6]">

@@ -19,5 +19,10 @@ export type LoginUserData = {
 export type JwtPayload = {
     user_id: number | null;
     email: string | null;
-    role_id: number | null;
+    role_id: Role | number | null;
+}
+
+export enum Role {
+    ADMIN = 0,
+    USER = 1,
 }

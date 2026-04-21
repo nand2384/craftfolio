@@ -1,8 +1,10 @@
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { Monitor, Tablet, Smartphone } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { templateMap } from '../../utils/templateRegistry';
-import { templates } from '../../pages/Templates/TemplateSelectionPage';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState, AppDispatch } from '../../redux/store';
+import { fetchTemplates } from '../../redux/features/templates/templateSlice';
 
 interface PreviewCanvasProps {
   templateId?: string;
@@ -10,9 +12,17 @@ interface PreviewCanvasProps {
 
 export default function PreviewCanvas({ templateId }: PreviewCanvasProps) {
   const [device, setDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
+  const dispatch = useDispatch<AppDispatch>();
+  const { templates } = useSelector((state: RootState) => state.templates);
 
-  const templateData = templates.find(t => t.id === templateId);
-  const SelectedTemplate = templateData ? templateMap[templateData.template] : null;
+  useEffect(() => {
+    if (templates.length === 0) {
+      dispatch(fetchTemplates());
+    }
+  }, [dispatch, templates.length]);
+
+  const templateData = templates.find(t => String(t.template_id) === String(templateId));
+  const SelectedTemplate = templateData ? templateMap[templateData.blueprint_key] : null;
 
   const getWidth = () => {
     switch (device) {
