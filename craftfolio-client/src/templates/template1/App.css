@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fdfaf6;
+  --foreground: #4a4a4a;
+  --primary: #4CAF7D;
+  --secondary: #6B7280;
+  --border: #e2e8f0;
+  scroll-padding-top: 5rem;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #fdfaf6;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+}
+
+*:not(input):not(textarea) {
+    user-select: none;
+}
