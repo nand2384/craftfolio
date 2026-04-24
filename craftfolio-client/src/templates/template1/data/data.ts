@@ -190,5 +190,14 @@ export const data = {
       { label: "Email", icon: "Mail", linkKey: "mail" },
       { label: "Resume", icon: "FileText", linkKey: "resume" }
     ]
+  },
+  theme: {
+    highlight: "#4CAF7D",
+    highlightDark: "#2E7D32",
+    pageBg: "#FDFBF6",
+    sectionBg: "#FFFFFF",
+    textMain: "#1A1A1A",
+    textMuted: "#666666",
+    softAccentBg: "#E8F5E9"
   }
 };

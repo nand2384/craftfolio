@@ -61,7 +61,7 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-[#4CAF7D] selection:text-white">
 
-      <main className="max-w-7xl mx-auto pt-28 pb-20 px-6 sm:px-8">
+      <main className="max-w-7xl mx-auto pt-12 pb-20 px-6 sm:px-8">
         
         {/* Profile Header (Bento Style) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">

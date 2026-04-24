@@ -64,7 +64,7 @@ export const loginUser = async (userData: LoginUserData) => {
 
         const jwt = services.utils.generateJwtToken(data.user_id, email, data.role_id);
 
-        return { success: true, jwt, role_id: data.role_id, userData: { first_name: data.first_name, last_name: data.last_name, email } };
+        return { success: true, jwt, role_id: data.role_id, userData: { first_name: data.first_name, last_name: data.last_name, email, avatar_url: data.avatar_url || "" }};
     } catch (error: any) {
         await services.audit.logAction('LOGIN_FAILURE', 'auth', undefined, undefined, { email, error: error.message });
         return { success: false, error: error };

@@ -23,9 +23,9 @@ const HomePage = () => {
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-[#4CAF7D] selection:text-white">
 
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-20 pb-32 px-8 overflow-hidden bg-white">
+      <section className="relative pt-12 pb-32 px-8 overflow-hidden bg-white">
         {/* Abstract background decorations */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-slate-50 rounded-full blur-[120px] opacity-60"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-150 bg-slate-50 rounded-full blur-[120px] opacity-60"></div>
         
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
           <motion.div 

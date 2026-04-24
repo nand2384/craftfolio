@@ -12,6 +12,7 @@ app.set('trust proxy', true);
 
 import authRoutes from "./src/features/auth/auth.routes.js";
 import templateRoutes from "./src/features/templates/template.routes.js";
+import craftsRoutes from "./src/features/crafts/crafts.routes.js";
 
 // Middlewares
 app.use(contextMiddleware);
@@ -23,5 +24,6 @@ app.use(passport.initialize());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/templates", templateRoutes);
+app.use("/api/crafts", craftsRoutes);
 
 export default app;

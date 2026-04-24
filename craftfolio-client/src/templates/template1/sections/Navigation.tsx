@@ -61,7 +61,7 @@ export function Navigation({ device }: { device?: 'desktop' | 'tablet' | 'mobile
     <nav
       className={`sticky top-0 left-0 right-0 z-2 transition-all duration-300 border-none ${
         isScrolled || isMobileMenuOpen
-          ? "bg-white shadow-sm border-b border-gray-100 py-2"
+          ? "bg-[var(--color-bg-section)] shadow-sm border-b border-gray-100 py-2"
           : "bg-transparent py-4"
       }`}
     >
@@ -72,7 +72,7 @@ export function Navigation({ device }: { device?: 'desktop' | 'tablet' | 'mobile
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             onClick={() => scrollToSection("hero")}
-            className="text-2xl font-bold text-[#1F2937] hover:text-[#4CAF7D] transition-all tracking-tight"
+            className="text-2xl font-bold text-[var(--color-text-main)] hover:text-[var(--color-highlight)] transition-all tracking-tight"
           >
             {thisData.profile.logoText}
           </motion.button>
@@ -90,15 +90,15 @@ export function Navigation({ device }: { device?: 'desktop' | 'tablet' | 'mobile
                 onClick={() => scrollToSection(link.id)}
                 className={`group relative transition-colors duration-300 text-base font-medium py-2 ${
                   activeSection === link.id
-                    ? "text-[#4CAF7D]"
-                    : "text-[#6B7280] hover:text-[#4CAF7D]"
+                    ? "text-[var(--color-highlight)]"
+                    : "text-[var(--color-text-muted)] hover:text-[var(--color-highlight)]"
                 }`}
               >
                 {link.name}
                 <span
-                  className={`absolute left-0 bottom-0 h-0.5 bg-[#4CAF7D] transition-all duration-300 rounded-full ${
+                  className={`absolute left-0 bottom-0 h-0.5 bg-[var(--color-highlight)] transition-all duration-300 rounded-full ${
                     activeSection === link.id
-                      ? "w-full"
+                      ? "width-full"
                       : "w-0 group-hover:w-full"
                   }`}
                 />
@@ -112,7 +112,7 @@ export function Navigation({ device }: { device?: 'desktop' | 'tablet' | 'mobile
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`${forceDesktop ? 'hidden' : (forceMobile ? 'flex' : 'md:hidden')} text-[#6B7280] hover:text-[#4CAF7D] transition-colors bg-gray-50 p-2 rounded-lg`}
+            className={`${forceDesktop ? 'hidden' : (forceMobile ? 'flex' : 'md:hidden')} text-[var(--color-text-muted)] hover:text-[var(--color-highlight)] transition-colors bg-[var(--color-bg-page)] p-2 rounded-lg`}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </motion.button>
@@ -122,7 +122,7 @@ export function Navigation({ device }: { device?: 'desktop' | 'tablet' | 'mobile
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              className={`${forceDesktop ? 'hidden' : (forceMobile ? 'block' : 'md:hidden')} pb-6 pt-2`}
+              className={`${forceDesktop ? 'hidden' : (forceMobile ? 'block' : 'md:hidden')} pb-6 pt-2 h-screen`}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
@@ -137,8 +137,8 @@ export function Navigation({ device }: { device?: 'desktop' | 'tablet' | 'mobile
                   onClick={() => scrollToSection(link.id)}
                   className={`block w-full text-center py-4 rounded-lg transition-colors text-base font-medium mb-2 ${
                     activeSection === link.id
-                      ? "text-[#4CAF7D] bg-green-50"
-                      : "text-[#6B7280] hover:text-[#4CAF7D] hover:bg-green-50/50"
+                      ? "text-[var(--color-highlight)] bg-[var(--color-bg-soft)]"
+                      : "text-[var(--color-text-muted)] hover:text-[var(--color-highlight)] hover:bg-[var(--color-bg-soft)]/50"
                   }`}
                 >
                   {link.name}

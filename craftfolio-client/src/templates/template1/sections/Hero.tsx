@@ -13,14 +13,12 @@ export function Hero({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }) {
   const isSmallDevice = isMobileView || isTabletView;
 
   const scrollToSection = (id: string) => {
-    // ... same as before
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
-  // ... (variants same)
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -47,7 +45,7 @@ export function Hero({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }) {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center relative bg-[#F9FAFB] overflow-hidden"
+      className="min-h-screen flex items-center justify-center relative bg-[var(--color-bg-soft)]/20 overflow-hidden"
     >
       <motion.div
         className={`max-w-4xl mx-auto px-6 lg:px-8 ${isSmallDevice ? 'py-20' : 'py-32'} relative z-10 text-center flex flex-col items-center`}
@@ -56,21 +54,21 @@ export function Hero({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }) {
         animate="visible"
       >
         <motion.h1
-          className={`${isMobileView ? 'text-4xl' : (isTabletView ? 'text-5xl' : 'text-5xl md:text-6xl lg:text-7xl')} font-bold mb-6 text-[#1F2937] tracking-tight`}
+          className={`${isMobileView ? 'text-4xl' : (isTabletView ? 'text-5xl' : 'text-5xl md:text-6xl lg:text-7xl')} font-bold mb-6 text-[var(--color-text-main)] tracking-tight`}
           variants={itemVariants}
         >
-          Hi, I'm <span className="text-[#4CAF7D]">{thisData.profile.name}</span>
+          Hi, I'm <span className="text-[var(--color-highlight)]">{thisData.profile.name}</span>
         </motion.h1>
 
         <motion.p
-          className={`${isMobileView ? 'text-xl' : (isTabletView ? 'text-2xl' : 'text-2xl md:text-3xl')} text-[#1F2937] mb-8 font-medium tracking-tight`}
+          className={`${isMobileView ? 'text-xl' : (isTabletView ? 'text-2xl' : 'text-2xl md:text-3xl')} text-[var(--color-text-main)] mb-8 font-medium tracking-tight`}
           variants={itemVariants}
         >
           {thisData.profile.jobTitle}
         </motion.p>
 
         <motion.div className="mb-14" variants={itemVariants}>
-          <p className={`${isMobileView ? 'text-base' : 'text-lg md:text-xl'} text-[#6B7280] max-w-2xl mx-auto leading-relaxed`}>
+          <p className={`${isMobileView ? 'text-base' : 'text-lg md:text-xl'} text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed`}>
             {thisData.hero.description}
           </p>
         </motion.div>
@@ -81,7 +79,7 @@ export function Hero({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }) {
         >
           <motion.button
             onClick={() => scrollToSection(data.hero.actions.primary.sectionId)}
-            className="w-full sm:w-auto group px-8 py-3.5 bg-[#4CAF7D] text-white rounded-lg font-medium hover:bg-[#3d9868] transition-all flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(76,175,125,0.2)] hover:shadow-[0_6px_20px_rgba(76,175,125,0.25)]"
+            className="w-full sm:w-auto group px-8 py-3.5 bg-[var(--color-highlight)] text-white rounded-lg font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(76,175,125,0.2)] hover:shadow-[0_6px_20px_rgba(76,175,125,0.25)]"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -94,7 +92,7 @@ export function Hero({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }) {
 
           <motion.button
             onClick={() => scrollToSection(data.hero.actions.secondary.sectionId)}
-            className="w-full sm:w-auto px-8 py-3.5 bg-transparent text-[#1F2937] rounded-lg font-medium hover:bg-white transition-all border border-gray-200 hover:border-gray-300 shadow-sm"
+            className="w-full sm:w-auto px-8 py-3.5 bg-transparent text-[var(--color-text-main)] rounded-lg font-medium hover:bg-[var(--color-bg-section)] transition-all border border-gray-200 hover:border-gray-300 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -105,7 +103,7 @@ export function Hero({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }) {
             href={getResolvedLink("resume").url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-8 py-3.5 flex items-center justify-center gap-2 text-[#6B7280] hover:text-[#4CAF7D] font-medium transition-colors"
+            className="w-full sm:w-auto px-8 py-3.5 flex items-center justify-center gap-2 text-[var(--color-text-muted)] hover:text-[var(--color-highlight)] font-medium transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -130,7 +128,7 @@ export function Hero({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }) {
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#6B7280] hover:text-[#4CAF7D] transition-colors p-2"
+                className="text-[var(--color-text-muted)] hover:text-[var(--color-highlight)] transition-colors p-2"
                 aria-label={key}
                 whileHover={{ y: -5, scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}

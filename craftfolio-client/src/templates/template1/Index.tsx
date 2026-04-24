@@ -23,6 +23,7 @@ function Index({ device }: IndexProps) {
   const dispatch = useDispatch();
   const currentTemplateId = useSelector((state: RootState) => state.data.templateId);
   const sections = useSelector((state: RootState) => state.data.data.sections);
+  const theme = useSelector((state: RootState) => state.data.data.theme);
 
   useEffect(() => {
     // Only set template data if it's not already loaded or if a different template was loaded
@@ -31,8 +32,19 @@ function Index({ device }: IndexProps) {
     }
   }, [dispatch, currentTemplateId]);
 
+  // Generate CSS variables from theme
+  const themeStyles = theme ? {
+    '--color-highlight': theme.highlight,
+    '--color-highlight-dark': theme.highlightDark,
+    '--color-bg-page': theme.pageBg,
+    '--color-bg-section': theme.sectionBg,
+    '--color-text-main': theme.textMain,
+    '--color-text-muted': theme.textMuted,
+    '--color-bg-soft': theme.softAccentBg,
+  } as React.CSSProperties : {};
+
   return (
-    <div className="min-h-screen bg-[#FDFBF6]">
+    <div className="min-h-screen bg-[var(--color-bg-page)] transition-colors duration-300" style={themeStyles}>
       <Toaster position="top-center" richColors />
       {sections?.navigation && <Navigation device={device} />}
       <main>

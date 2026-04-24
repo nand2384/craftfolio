@@ -1,11 +1,12 @@
 import * as Accordion from '@radix-ui/react-accordion';
 import * as Switch from '@radix-ui/react-switch';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Palette } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSection } from '../../redux/features/preview/dataSlice';
 import type { RootState } from '../../redux/store';
 import { iconMap } from '../../templates/template1/utils/iconMap';
 import RenderFields from '../builder/RenderFields';
+import PalettePicker from '../builder/PalettePicker';
 
 export default function Sidebar() {
   const dispatch = useDispatch();
@@ -21,7 +22,35 @@ export default function Sidebar() {
       </div>
 
       <div className="flex-1 overflow-y-auto custom-scrollbar p-5">
-        <Accordion.Root type="multiple" defaultValue={['hero']} className="space-y-3">
+        <Accordion.Root type="multiple" defaultValue={['theme']} className="space-y-3">
+          
+          {/* Theme Section */}
+          <Accordion.Item
+            value="theme"
+            className="border border-gray-100 rounded-2xl overflow-hidden bg-white shadow-[0_1px_2px_rgba(0,0,0,0.02)] transition-all data-[state=open]:shadow-[0_8px_20px_-4px_rgba(0,0,0,0.04)] data-[state=open]:border-gray-200"
+          >
+            <Accordion.Header className="flex">
+              <div className="w-full px-5 py-4.5 flex items-center justify-between hover:bg-gray-50/50 transition-colors group text-left border-b border-gray-50">
+                <div className="flex items-center gap-3.5 flex-1">
+                  <Accordion.Trigger className="flex items-center gap-2.5 flex-1 cursor-pointer">
+                    <Palette className="w-4 h-4 text-gray-400 group-data-[state=open]:text-black transition-colors" />
+                    <span className="text-[14px] font-semibold text-gray-700 group-data-[state=open]:text-black">
+                      Theme
+                    </span>
+                  </Accordion.Trigger>
+                </div>
+                <Accordion.Trigger className="cursor-pointer">
+                  <ChevronDown className="w-4 h-4 text-gray-300 transition-transform group-data-[state=open]:rotate-180 group-hover:text-gray-400" />
+                </Accordion.Trigger>
+              </div>
+            </Accordion.Header>
+            <Accordion.Content className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up font-sans">
+              <div className="px-5 pb-6 pt-4">
+                <PalettePicker />
+              </div>
+            </Accordion.Content>
+          </Accordion.Item>
+
           {sectionsNavigation.map((section: any) => {
             const isOpen = data.sections?.[section.id];
             const isToggle = section.toggle;

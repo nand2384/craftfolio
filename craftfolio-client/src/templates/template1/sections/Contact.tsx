@@ -62,7 +62,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
   const { contact } = thisData;
 
   return (
-    <section id="contact" className="py-24 bg-white relative border-t border-gray-100 overflow-hidden">
+    <section id="contact" className="py-24 bg-[var(--color-bg-section)] relative border-t border-gray-100 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <motion.div 
           className="text-center mb-16"
@@ -71,10 +71,10 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1F2937] mb-4 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-main)] mb-4 tracking-tight">
             {contact.title}
           </h2>
-          <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
+          <p className="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
             {contact.description}
           </p>
         </motion.div>
@@ -88,44 +88,44 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            <h3 className="text-2xl font-bold mb-4 text-[#1F2937]">
+            <h3 className="text-2xl font-bold mb-4 text-[var(--color-text-main)]">
               Get in Touch
             </h3>
-            <p className="text-[#6B7280] mb-10 leading-relaxed text-base">
+            <p className="text-[var(--color-text-muted)] mb-10 leading-relaxed text-base">
               I'm currently available for freelance work and full-time opportunities.
               Whether you have a question or just want to say hi, I'll try my best to get back to you!
             </p>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
-              {contact.info.map((info, index) => {
+              {contact.info.map((info: any, index: number) => {
                 const social = getResolvedLink(info.linkKey);
                 const Icon = iconMap[info.icon];
 
                 return (
                 <motion.div 
                   key={index} 
-                  className="group flex items-center gap-5 p-4 bg-[#F9FAFB] rounded-2xl border border-[#E5E7EB] shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                  className="group flex items-center gap-5 p-4 bg-[var(--color-bg-page)] rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shrink-0 border border-[#E5E7EB] group-hover:border-[#4CAF7D] transition-colors duration-300">
-                    {Icon && <Icon className="text-[#4CAF7D]" size={20} />}
+                  <div className="w-12 h-12 bg-[var(--color-bg-section)] rounded-xl flex items-center justify-center shrink-0 border border-gray-100 group-hover:border-[var(--color-highlight)] transition-colors duration-300">
+                    {Icon && <Icon className="text-[var(--color-highlight)]" size={20} />}
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-[#1F2937] text-sm mb-0.5">{info.title}</p>
+                    <p className="font-semibold text-[var(--color-text-main)] text-sm mb-0.5">{info.title}</p>
                     {social.url ? (
                       <a
                          href={social.url}
                          target={social.url.startsWith('http') ? "_blank" : "_self"}
                          rel={social.url.startsWith('http') ? "noopener noreferrer" : ""}
-                         className="text-[#6B7280] hover:text-[#4CAF7D] transition-colors text-sm font-medium"
+                         className="text-[var(--color-text-muted)] hover:text-[var(--color-highlight)] transition-colors text-sm font-medium"
                       >
                          {info.value}
                       </a>
                     ) : (
-                      <p className="text-[#6B7280] text-sm font-medium">{info.value}</p>
+                      <p className="text-[var(--color-text-muted)] text-sm font-medium">{info.value}</p>
                     )}
                   </div>
                 </motion.div>
@@ -135,7 +135,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
 
           {/* Right Column: Contact Form */}
           <motion.div 
-            className="bg-white rounded-3xl border border-[#E5E7EB] p-8 sm:p-10 shadow-lg shadow-gray-100/50"
+            className="bg-[var(--color-bg-section)] rounded-3xl border border-gray-100 p-8 sm:p-10 shadow-lg shadow-gray-100/50"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -146,7 +146,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-semibold text-[#1F2937] mb-2"
+                    className="block text-sm font-semibold text-[var(--color-text-main)] mb-2"
                   >
                     Your Name
                   </label>
@@ -157,7 +157,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
                     value={formData.name || ''}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-[#1F2937] rounded-xl focus:ring-2 focus:ring-[#4CAF7D]/20 focus:border-[#4CAF7D] outline-none transition-all placeholder-gray-400 font-sans text-sm"
+                    className="w-full px-4 py-3 bg-[var(--color-bg-page)] border border-gray-100 text-[var(--color-text-main)] rounded-xl focus:ring-2 focus:ring-[var(--color-highlight)]/20 focus:border-[var(--color-highlight)] outline-none transition-all placeholder-gray-400 font-sans text-sm"
                     placeholder="John Doe"
                   />
                 </div>
@@ -165,7 +165,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-semibold text-[#1F2937] mb-2"
+                    className="block text-sm font-semibold text-[var(--color-text-main)] mb-2"
                   >
                     Your Email
                   </label>
@@ -176,7 +176,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
                     value={formData.email || ''}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-[#1F2937] rounded-xl focus:ring-2 focus:ring-[#4CAF7D]/20 focus:border-[#4CAF7D] outline-none transition-all placeholder-gray-400 font-sans text-sm"
+                    className="w-full px-4 py-3 bg-[var(--color-bg-page)] border border-gray-100 text-[var(--color-text-main)] rounded-xl focus:ring-2 focus:ring-[var(--color-highlight)]/20 focus:border-[var(--color-highlight)] outline-none transition-all placeholder-gray-400 font-sans text-sm"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -185,7 +185,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
               <div>
                 <label
                   htmlFor="subject"
-                  className="block text-sm font-semibold text-[#1F2937] mb-2"
+                  className="block text-sm font-semibold text-[var(--color-text-main)] mb-2"
                 >
                   Subject
                 </label>
@@ -196,7 +196,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
                   value={formData.subject || ''}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-[#1F2937] rounded-xl focus:ring-2 focus:ring-[#4CAF7D]/20 focus:border-[#4CAF7D] outline-none transition-all placeholder-gray-400 font-sans text-sm"
+                  className="w-full px-4 py-3 bg-[var(--color-bg-page)] border border-gray-100 text-[var(--color-text-main)] rounded-xl focus:ring-2 focus:ring-[var(--color-highlight)]/20 focus:border-[var(--color-highlight)] outline-none transition-all placeholder-gray-400 font-sans text-sm"
                   placeholder="Project Inquiry"
                 />
               </div>
@@ -204,7 +204,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-semibold text-[#1F2937] mb-2"
+                  className="block text-sm font-semibold text-[var(--color-text-main)] mb-2"
                 >
                   Message
                 </label>
@@ -215,7 +215,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] text-[#1F2937] rounded-xl focus:ring-2 focus:ring-[#4CAF7D]/20 focus:border-[#4CAF7D] outline-none transition-all resize-none placeholder-gray-400 text-sm"
+                  className="w-full px-4 py-3 bg-[var(--color-bg-page)] border border-gray-100 text-[var(--color-text-main)] rounded-xl focus:ring-2 focus:ring-[var(--color-highlight)]/20 focus:border-[var(--color-highlight)] outline-none transition-all resize-none placeholder-gray-400 text-sm"
                   placeholder="Tell me about your project..."
                 />
               </div>
@@ -223,7 +223,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#4CAF7D] text-white px-8 py-4 rounded-xl hover:bg-[#3d8c64] transition-colors shadow-sm shadow-[#4CAF7D]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed font-semibold text-sm group mt-2"
+                className="w-full bg-[var(--color-highlight)] text-white px-8 py-4 rounded-xl hover:opacity-90 transition-opacity shadow-sm shadow-[var(--color-highlight)]/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed font-semibold text-sm group mt-2"
               >
                 {isSubmitting ? (
                   "Sending..."
