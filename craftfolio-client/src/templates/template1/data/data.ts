@@ -1,21 +1,21 @@
 export const links = {
   github: {
-    url: "https://github.com/nand2384",
-    placeholder: "github.com/nand2384",
+    url: "https://github.com/username",
+    placeholder: "github.com/username",
     icon: "Github"
   },
   linkedin: { 
-    url: "https://www.linkedin.com/in/nand-patel-2308np6409/", 
-    placeholder: "linkedin.com/in/nand-patel-2308np6409/",
+    url: "https://www.linkedin.com/in/username", 
+    placeholder: "linkedin.com/in/username",
     icon: "Linkedin"
   },
   mail: {
-    url: "nand2384@gmail.com",
-    placeholder: "nand2384@gmail.com",
+    url: "user@domain.com",
+    placeholder: "user@domain.com",
     icon: "Mail"
   },
   resume: {
-    url: "Nand_Patel_Resume",
+    url: "Username_Resume",
     placeholder: "View Resume",
     icon: "FileText"
   }
@@ -176,10 +176,10 @@ export const data = {
     title: "Get In Touch",
     description: "Have a project in mind or just want to say hi? Feel free to reach out!",
     info: [
-      { icon: "Mail", title: "Email", value: "nand2384@gmail.com", linkKey: "mail" },
-      { icon: "Linkedin", title: "LinkedIn", value: "linkedin.com/in/nand-patel-2308np6409/", linkKey: "linkedin" },
-      { icon: "Github", title: "GitHub", value: "github.com/nand2384", linkKey: "github" },
-      { icon: "MapPin", title: "Location", value: "Surat, Gujarat, India", linkKey: null },
+      { icon: "Mail", title: "Email", value: "user@domain.com", linkKey: "mail" },
+      { icon: "Linkedin", title: "LinkedIn", value: "linkedin.com/in/username", linkKey: "linkedin" },
+      { icon: "Github", title: "GitHub", value: "github.com/username", linkKey: "github" },
+      { icon: "MapPin", title: "Location", value: "City, Country", linkKey: null },
     ]
   },
   footer: {

@@ -58,11 +58,11 @@ const HomePage = () => {
           >
             <button 
               onClick={() => navigate('/select-profession')}
-              className="px-10 py-5 bg-slate-900 text-white rounded-[2rem] font-black text-lg hover:bg-slate-800 transition-all shadow-2xl shadow-slate-900/10 flex items-center gap-4 group"
+              className="px-10 py-5 bg-slate-900 text-white rounded-4xl font-black text-lg hover:bg-slate-800 transition-all shadow-2xl shadow-slate-900/10 flex items-center gap-4 group"
             >
               Start Your Craft <ArrowRight className="group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="px-8 py-5 text-slate-900 font-bold hover:bg-slate-50 rounded-[2rem] transition-all">
+            <button className="px-8 py-5 text-slate-900 font-bold hover:bg-slate-50 rounded-4xl transition-all">
               See Showcase
             </button>
           </motion.div>
@@ -80,7 +80,7 @@ const HomePage = () => {
                 <div className="w-3 h-3 bg-slate-200 rounded-full"></div>
              </div>
              <div className="w-full aspect-video bg-slate-50 rounded-[2.5rem] flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#4CAF7D]/5 to-transparent"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-[#4CAF7D]/5 to-transparent"></div>
                 <div className="z-10 text-center px-6">
                    <div className="w-16 h-16 bg-[#4CAF7D] rounded-2xl flex items-center justify-center text-white mb-6 mx-auto shadow-lg">
                       <Zap fill="currentColor" />
@@ -123,7 +123,7 @@ const HomePage = () => {
             ].map((f, i) => (
               <motion.div 
                 key={f.title} custom={i} variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-[#4CAF7D]/5 transition-all group"
+                className="bg-white p-8 rounded-4xl border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-[#4CAF7D]/5 transition-all group"
               >
                 <div className="p-4 bg-slate-50 rounded-2xl w-fit group-hover:bg-[#4CAF7D] group-hover:text-white transition-colors mb-6">
                   <f.icon size={24} />
@@ -140,7 +140,7 @@ const HomePage = () => {
       <section className="py-32 px-8 overflow-hidden">
         <div className="max-w-7xl mx-auto">
            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-              <div className="lg:col-span-2 bg-slate-900 rounded-[3rem] p-12 text-white relative overflow-hidden group min-h-[450px]">
+              <div className="lg:col-span-2 bg-slate-900 rounded-[3rem] p-12 text-white relative overflow-hidden group min-h-112.5">
                  <div className="relative z-10 flex flex-col h-full justify-between">
                     <div>
                        <h2 className="text-4xl font-black mb-6 leading-tight">Build with components, <br /> not complexity.</h2>
@@ -151,7 +151,7 @@ const HomePage = () => {
                     </button>
                  </div>
                  {/* Visual Background Decoration */}
-                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-slate-800 to-transparent p-12 hidden md:flex items-center">
+                 <div className="absolute top-0 right-0 w-1/2 h-full bg-linear-to-l from-slate-800 to-transparent p-12 hidden md:flex items-center">
                     <div className="grid grid-cols-2 gap-4 w-full rotate-12 transform scale-125 opacity-40 group-hover:rotate-6 transition-transform">
                        {[1,2,3,4,5,6].map(i => (
                          <div key={i} className="h-32 bg-slate-700 rounded-2xl"></div>
@@ -216,7 +216,7 @@ const HomePage = () => {
                  { step: '01', title: 'Pick your Craft', desc: 'Tell us your profession and we will suggest themes that rank high in your industry.' },
                  { step: '02', title: 'Customize Layout', desc: 'Click to add sections, drag to move them. Type only when you want to tell your story.' },
                  { step: '03', title: 'Export Code', desc: 'Download the high-performance React source code, ready for any hosting provider.' },
-               ].map((s, i) => (
+               ].map((s) => (
                  <div key={s.step} className="flex-1 group">
                     <span className="text-6xl font-black text-white/10 group-hover:text-[#4CAF7D]/20 transition-colors mb-6 block">{s.step}</span>
                     <h3 className="text-2xl font-bold mb-4">{s.title}</h3>

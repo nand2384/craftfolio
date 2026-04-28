@@ -2,12 +2,23 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { AuthState } from "../../../types";
 import { baseURL } from "../../../config/envConfig";
 import { toast } from "sonner";
+import type { RootState } from "../../store";
 
-const storedAuth = localStorage.getItem("auth");
-const initialAuthState = storedAuth ? JSON.parse(storedAuth) : null;
+const getInitialAuth = () => {
+    try {
+        const storedAuth = localStorage.getItem("auth");
+        if (!storedAuth || storedAuth === "undefined" || storedAuth === "null") return null;
+        return JSON.parse(storedAuth);
+    } catch (error) {
+        console.error("Error parsing auth from localStorage:", error);
+        return null;
+    }
+};
+
+const initialAuthState = getInitialAuth();
 
 const initialState: AuthState = {
-    jwt: initialAuthState?.jwt || "",
+    jwt: (initialAuthState?.jwt && initialAuthState.jwt !== "undefined") ? initialAuthState.jwt : "",
     role_id: initialAuthState?.role_id || 99,
     userData: initialAuthState?.userData || {
         first_name: "",
@@ -80,6 +91,37 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (payload: any,
     } catch (error: any) {
         console.log("auth/loginUser error: ", error);
         return thunkAPI.rejectWithValue(error.message || "Something went wrong");
+    }
+});
+
+export const validateUser = createAsyncThunk('auth/validateUser', async (_, thunkAPI) => {
+    try {
+        const state = thunkAPI.getState() as RootState;
+        const token = state.auth.jwt;
+
+        if (!token || token === "undefined" || token === "null") {
+            return thunkAPI.rejectWithValue("No token provided");
+        }
+
+        const response = await fetch(`${baseURL}/api/auth/validate`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            // Clear local storage and state if token is invalid or expired
+            thunkAPI.dispatch(removeAuthData());
+            const errorData = await response.json().catch(() => ({}));
+            return thunkAPI.rejectWithValue(errorData.error || "Session invalid");
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error: any) {
+        return thunkAPI.rejectWithValue(error.message || "Validation failed");
     }
 });
 

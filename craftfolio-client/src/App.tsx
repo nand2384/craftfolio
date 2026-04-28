@@ -5,6 +5,8 @@ import { fetchTemplates } from './redux/features/templates/templateSlice';
 import type { AppDispatch, RootState } from './redux/store';
 import AllRoutes from './AllRoutes';
 import AppLoader from './components/layout/AppLoader';
+import { validateUser } from './redux/features/auth/authSlice';
+import { fetchUserCrafts } from './redux/features/preview/dataSlice';
 
 function App() {
   const { pathname } = useLocation();
@@ -13,7 +15,9 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchTemplates());
-  }, [dispatch]);
+    dispatch(validateUser());
+    dispatch(fetchUserCrafts());
+  }, [dispatch, fetchTemplates, validateUser, fetchUserCrafts]);
 
   useEffect(() => {
     window.scrollTo({

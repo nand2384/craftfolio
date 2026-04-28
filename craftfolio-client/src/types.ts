@@ -1,9 +1,13 @@
 import React from "react";
 
-export type BuilderState = {
+export type DataState = {
   templateId: string;
+  craftId: string | null;
+  craftName: string | null;
   data: any;
   links: any;
+  userCrafts: any[] | [];
+  loadingCrafts: boolean;
 };
 
 export type AuthState = {
@@ -57,4 +61,4 @@ export type ViewMode = 'desktop' | 'tablet' | 'mobile';
 
 export interface TemplateRegistry {
   [key: string]: React.LazyExoticComponent<React.ComponentType<any>>;
-}
+}

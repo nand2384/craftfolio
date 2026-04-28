@@ -16,18 +16,18 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ error: "Access denied. No token provided." });
+        return res.status(401).json({ success: false, error: "Access denied. No token provided." });
     }
 
     const token = authHeader.split(" ")[1];
     const decoded = extractJwtData(token);
 
     if (decoded.isExpired) {
-        return res.status(401).json({ error: "Token has expired." });
+        return res.status(401).json({ success: false, error: "Token has expired." });
     }
 
     if (!decoded.userId) {
-        return res.status(401).json({ error: "Invalid token." });
+        return res.status(401).json({ success: false, error: "Invalid token." });
     }
 
     // 1. Attach user to the request object

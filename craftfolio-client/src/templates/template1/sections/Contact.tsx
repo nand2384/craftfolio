@@ -158,7 +158,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-[var(--color-bg-page)] border border-gray-100 text-[var(--color-text-main)] rounded-xl focus:ring-2 focus:ring-[var(--color-highlight)]/20 focus:border-[var(--color-highlight)] outline-none transition-all placeholder-gray-400 font-sans text-sm"
-                    placeholder="John Doe"
+                    placeholder="Noah"
                   />
                 </div>
 
@@ -177,7 +177,7 @@ export function Contact({ device }: { device?: 'desktop' | 'tablet' | 'mobile' }
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-[var(--color-bg-page)] border border-gray-100 text-[var(--color-text-main)] rounded-xl focus:ring-2 focus:ring-[var(--color-highlight)]/20 focus:border-[var(--color-highlight)] outline-none transition-all placeholder-gray-400 font-sans text-sm"
-                    placeholder="john@example.com"
+                    placeholder="noah@domain.com"
                   />
                 </div>
               </div>

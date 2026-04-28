@@ -13,6 +13,7 @@ router.post('/verify-otp', verifyOtp);
 // Route for verifying if a user's token is valid and returning their data
 router.get('/validate', authMiddleware, (req: Request, res: Response) => {
     res.status(200).json({ 
+        success: true,
         message: "Session is valid", 
         user: req.user 
     });
