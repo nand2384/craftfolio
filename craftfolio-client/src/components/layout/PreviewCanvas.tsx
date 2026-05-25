@@ -5,6 +5,8 @@ import { templateMap } from '../../utils/templateRegistry';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../../redux/store';
 import { fetchTemplates } from '../../redux/features/templates/templateSlice';
+import { templateDataMap } from '../../utils/templateDataRegistry';
+import { setTemplate } from '../../redux/features/preview/dataSlice';
 
 interface PreviewCanvasProps {
   templateId?: string;
@@ -14,16 +16,32 @@ export default function PreviewCanvas({ templateId }: PreviewCanvasProps) {
   const [device, setDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const dispatch = useDispatch<AppDispatch>();
   const { templates } = useSelector((state: RootState) => state.templates);
+  const currentReduxTemplateId = useSelector((state: RootState) => state.data.templateId);
 
+  
   useEffect(() => {
     if (templates.length === 0) {
       dispatch(fetchTemplates());
     }
   }, [dispatch, templates.length]);
-
+  
   const templateData = templates.find(t => String(t.template_id) === String(templateId));
   const SelectedTemplate = templateData ? templateMap[templateData.blueprint_key] : null;
+  
+  useEffect(() => {
+    if (templateData && !currentReduxTemplateId) {
+      const defaultData = templateDataMap[templateData.blueprint_key];
 
+      if(defaultData) {
+        dispatch(setTemplate({
+          templateId: templateData.template_id,
+          data: defaultData.data,
+          links: defaultData.links
+        }));
+      }
+    }
+  }, [templateData, currentReduxTemplateId, dispatch])
+ 
   const getWidth = () => {
     switch (device) {
       case 'mobile': return '375px';
@@ -31,7 +49,7 @@ export default function PreviewCanvas({ templateId }: PreviewCanvasProps) {
       default: return '100%';
     }
   };
-
+  
   const getHeight = () => {
     switch (device) {
       case 'mobile': return '667px';

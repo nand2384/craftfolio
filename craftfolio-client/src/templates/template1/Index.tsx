@@ -20,17 +20,8 @@ interface IndexProps {
 
 
 function Index({ device }: IndexProps) {
-  const dispatch = useDispatch();
-  const currentTemplateId = useSelector((state: RootState) => state.data.templateId);
   const sections = useSelector((state: RootState) => state.data.data.sections);
   const theme = useSelector((state: RootState) => state.data.data.theme);
-
-  useEffect(() => {
-    // Only set template data if it's not already loaded or if a different template was loaded
-    if (currentTemplateId !== "template1") {
-      dispatch(setTemplate({ templateId: "template1", data, links }));
-    }
-  }, [dispatch, currentTemplateId]);
 
   // Generate CSS variables from theme
   const themeStyles = theme ? {

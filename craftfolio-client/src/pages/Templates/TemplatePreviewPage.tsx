@@ -8,6 +8,7 @@ import type { RootState, AppDispatch } from '../../redux/store';
 import { fetchTemplates } from '../../redux/features/templates/templateSlice';
 import { fetchUserCrafts, setTemplate } from '../../redux/features/preview/dataSlice';
 import { toast } from 'sonner';
+import { templateDataMap } from '../../utils/templateDataRegistry';
 
 const TemplatePreviewPage = () => {
   const { templateId } = useParams<{ templateId: string }>();
@@ -49,7 +50,17 @@ const TemplatePreviewPage = () => {
   };
 
   const startFresh = () => {
-    if (templateData) navigate(`/builder/${templateData.template_id}`);
+    if (templateData) {
+      const defaultData = templateDataMap[templateData.blueprint_key];
+      dispatch(setTemplate({
+        templateId: templateData.template_id,
+        craftId: null,
+        craftName: templateData.name,
+        data: defaultData?.data || {},
+        links: defaultData?.links || {}
+      }));
+      navigate(`/builder/${templateData.template_id}`);
+    }
   };
 
   const resumeDraft = () => {

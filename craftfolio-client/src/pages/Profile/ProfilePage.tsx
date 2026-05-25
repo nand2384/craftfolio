@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
 import { 
   User, Settings, Layout, ArrowUpRight, 
-  Search, Bell, Plus, LogOut, 
-  ExternalLink, MoreVertical, Trash2, Edit3,
-  Calendar, Mail, Loader2, Clock
+  Bell, Plus, LogOut, MoreVertical, Trash2, 
+  Edit3, Calendar, Mail, Loader2, Clock
 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../../redux/store';
@@ -30,20 +29,20 @@ const ProfilePage = () => {
     navigate('/');
   };
 
-  const handleEditCraft = (craft: any) => {
+  const handleEditCraft = async (craft: any) => {
     // Find the blueprint key for this template
     const template = templates.find(t => t.template_id === craft.template_id);
     if (template) {
       // Set the template data in Redux
       dispatch(setTemplate({
-        templateId: template.blueprint_key,
+        templateId: craft.template_id,
         craftId: craft.craft_id,
         craftName: craft.craft_name,
         data: craft.data,
         links: craft.links
       }));
       // Navigate to builder
-      navigate(`/builder/${template.blueprint_key}`);
+      navigate(`/builder/${template.template_id}`);
     } else {
       toast.error("Template definition not found");
     }

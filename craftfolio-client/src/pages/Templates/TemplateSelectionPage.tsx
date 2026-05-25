@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import type { RootState, AppDispatch } from '../../redux/store';
 import { fetchTemplates } from '../../redux/features/templates/templateSlice';
 import { setTemplate, fetchUserCrafts } from '../../redux/features/preview/dataSlice';
+import { templateDataMap } from '../../utils/templateDataRegistry';
 
 const getProfessionName = (id: string) => {
   const names: Record<string, string> = {
@@ -77,8 +78,16 @@ const TemplateSelectionPage = () => {
   };
 
   const startFresh = () => {
-    if (selectedTemplateId) {
-      navigate(`/builder/${selectedTemplateId}`);
+    if (selectedTemplate) {
+      const defaultData = templateDataMap[selectedTemplate.blueprint_key];
+      dispatch(setTemplate({
+        templateId: selectedTemplate.template_id,
+        craftId: null,
+        craftName: selectedTemplate.name,
+        data: defaultData?.data || {},
+        links: defaultData?.links || {}
+      }));
+      navigate(`/builder/${selectedTemplate.template_id}`);
     }
   };
   
